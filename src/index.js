@@ -1,6 +1,9 @@
 import './index.less'
 import './components/article/article.js'
 import './components/menu/menu.js'
+import { data } from 'msw/lib/types/context';
+
+
 
 function articleMaker(articleObj) {
     const article = document.createElement('div');
@@ -12,11 +15,11 @@ function articleMaker(articleObj) {
     const expandButton = document.createElement('span');
     
     article.appendChild(articleTitle);
-    article.apppendChild(articleDate);
-    article.apppendChild(pOne);
-    article.apppendChild(pTwo);
-    article.apppendChild(pThree);
-    article.apppendChild(expandButton);
+    article.appendChild(articleDate);
+    article.appendChild(pOne);
+    article.appendChild(pTwo);
+    article.appendChild(pThree);
+    article.appendChild(expandButton);
     
     article.classList.add('article');
     articleDate.classList.add('date');
@@ -35,3 +38,46 @@ function articleMaker(articleObj) {
     
     return article;
 }
+
+const articles = document.querySelector('.articles');
+
+//const testArticle = articleMaker( {title: 'This is a Test', date: 'July 4th, 1776', firstParagraph: 'This Text.', secondParagraph: 'That Text.', thirdParagraph: 'Other Text'} );
+//articles.append(testArticle);
+
+
+
+data.forEach(articleObj => {
+    const articleElem = articleMaker(articleObj);
+    articles.appendChild(articleElem);
+});
+
+
+
+
+function menuMaker(menuArray) {
+    const menu = document.createElement('div');
+    const list = document.createElement('ul');
+    
+    menu.appendChild(list);
+
+    menu.classList.add('menu');
+
+    menuArray.forEach(idx => {
+        const menuItem = document.createElement('li');
+        menuItem.textContent = idx;
+        list.appendChild(menuItem);
+    });
+
+    const menuButton = document.querySelector('.menu-button');
+    menuButton.addEventListener('click', event => {
+        menu.classList.toggle('menu--open');
+    });
+
+    return menu;
+}
+
+const header = document.querySelector('.header');
+
+const mainMenu = menuMaker(menuItems);
+
+header.appendChild(mainMenu);
